@@ -1,0 +1,96 @@
+﻿@model Cascd_Dpdwn.VMs.AllTbl
+
+@{
+    ViewData["Title"] = "DisplayData";
+}
+
+<h1>DisplayData</h1>
+
+<div class="container">
+    <div>
+        <select id="teritory" class="form-select">
+            <option>Select</option>
+            @{
+                foreach (var item in Model.tbl_Territory)
+                {
+                    <option value="@item.Ter_id">
+                        @item.Tr_Name
+                    </option>
+                }
+            }
+        </select>
+    </div>
+</div>
+<p>
+    <div>&nbsp;</div>
+</p>
+
+<div class="container">
+    <div>
+        <select id="Cntry" class="form-select">
+            <option>Select</option>
+            @*@{
+                foreach (var item in Model.tbl_Country)
+                {
+                    <option value="@item.Cnt_id">
+                        @item.Cn_Name
+                    </option>
+                }
+            }*@
+        </select>
+    </div>
+</div>
+
+<p>
+    <div>&nbsp;</div>
+</p>
+
+<div class="container">
+    <div>
+        <select id="stt" class="form-select">
+            <option>Select</option>
+            @*@{
+                foreach (var item in Model.tbl_Stt)
+                {
+                    <option value="@item.Stt_id">
+                        @item.St_Name
+                    </option>
+                }
+            }*@
+        </select>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            
+            $("#teritory").change(function () {
+                getTerr();
+            });
+
+            function getTerr() {
+                debugger
+                var cty = $('#teritory').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/GetCountry',
+                    data: { id: cty },
+                    success: function (response) {
+                        if (response != 0) {
+                            console.log(1);
+                        }
+                        else {
+                            console.log('notfound');
+                        }
+                    },
+                    error: function (data, errorThrown) {
+                        alert('request failed :' + errorThrown);
+                    }
+                });
+            }
+        });
+    </script>
+}

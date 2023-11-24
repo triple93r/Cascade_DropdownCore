@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Cascd_Dpdwn.props" />
+</Project>
