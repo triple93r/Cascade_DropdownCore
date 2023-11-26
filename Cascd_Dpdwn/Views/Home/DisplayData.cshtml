@@ -60,27 +60,34 @@
         </select>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
 
 @section Scripts{
     <script>
         $(document).ready(function () {
             
             $("#teritory").change(function () {
-                getTerr();
+                getCntr();
             });
 
-            function getTerr() {
+            function getCntr() {
                 debugger
-                var cty = $('#teritory').val();
+                var trty = $('#teritory').val();
+                var select = $('#Cntry');
+                select.empty();
                 $.ajax({
                     type: 'POST',
                     url: '/Home/GetCountry',
-                    data: { id: cty },
+                    data: { id: trty },
                     success: function (response) {
                         if (response != 0) {
-                            console.log(1);
+                            console.log(response);                            
+                            var defaultOption = $('<option>').val('').text('Select a country');
+                            select.append(defaultOption);
+                            // Add options based on the received data
+                            $.each(response, function (index, country) {
+                                var option = $('<option>').val(country.cnt_id).text(country.cn_Name);
+                                select.append(option);
+                            });
                         }
                         else {
                             console.log('notfound');
@@ -91,6 +98,41 @@
                     }
                 });
             }
+
+            $("#Cntry").change(function () {
+                getStt();
+            });
+
+            function getStt() {
+                debugger
+                var cty = $('#Cntry').val();
+                var select = $('#stt');
+                select.empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/GetState',
+                    data: { id: cty },
+                    success: function (response) {
+                        if (response != 0) {
+                            console.log(response);                            
+                            var defaultOption = $('<option>').val('').text('Select a state');
+                            select.append(defaultOption);
+                            // Add options based on the received data
+                            $.each(response, function (index, stat) {
+                                var option = $('<option>').val(stat.stt_id).text(stat.st_Name);
+                                select.append(option);
+                            });
+                        }
+                        else {
+                            console.log('notfound');
+                        }
+                    },
+                    error: function (data, errorThrown) {
+                        alert('request failed :' + errorThrown);
+                    }
+                });
+            }
+
         });
     </script>
 }

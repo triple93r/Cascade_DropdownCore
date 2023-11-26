@@ -44,6 +44,12 @@ namespace Cascd_Dpdwn.Controllers
             return Json(response);
         }
 
+        [HttpPost]
+        public ActionResult GetState(int id)
+        {
+            var response = _context.tbl_Stt.Where(x => x.Cnt_id == id).ToList();
+            return Json(response);
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
